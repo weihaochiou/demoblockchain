@@ -21,4 +21,10 @@ contract('Box', function([owner, other]){
     })
 
 
+    it('store emits an event', async function(){
+        const receipt = await this.box.store(value, {from:owner});
+
+        expectEvent(receipt, 'ValueChanged', {newValue:value})
+    })
+
 })
