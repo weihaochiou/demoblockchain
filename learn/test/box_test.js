@@ -18,13 +18,20 @@ contract('Box', function([owner, other]){
         await this.box.store(value, {from: owner});
 
         expect((await this.box.retrieve())).to.be.bignumber.equal(value);
-    })
+    });
 
 
     it('store emits an event', async function(){
         const receipt = await this.box.store(value, {from:owner});
 
         expectEvent(receipt, 'ValueChanged', {newValue:value})
-    })
+    });
+
+    it('non owner cannot store a value', async function(){
+        await expectRevert(
+            this.box.store(value, {from: other}),
+            'Unauthorized'
+        )
+    });
 
 })
